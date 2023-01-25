@@ -12,7 +12,7 @@ option(USE_SORELEASE   "Use SORELEASE in shared library filename." ON)
 # Library version:
 
 set(MINISAT_SOMAJOR   2)
-set(MINISAT_SOMINOR   1)
+set(MINISAT_SOMINOR   2)
 set(MINISAT_SORELEASE 0)
 
 # Compute VERSION and SOVERSION:
@@ -42,7 +42,8 @@ set(MINISAT_LIB_SOURCES
     minisat/utils/Options.cc
     minisat/utils/System.cc
     minisat/core/Solver.cc
-    minisat/simp/SimpSolver.cc)
+    minisat/simp/SimpSolver.cc
+    minisat/cminisat.cc)
 
 add_library(minisat-lib-static STATIC ${MINISAT_LIB_SOURCES})
 add_library(minisat-lib-shared SHARED ${MINISAT_LIB_SOURCES})
