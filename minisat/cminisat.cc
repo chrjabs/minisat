@@ -103,6 +103,7 @@ void cminisatsimp_assume(CMinisatSimp *handle, int lit) {
 int cminisat_solve(CMinisat *handle) {
   Wrapper *wrapper = (Wrapper *)handle;
   lbool res = wrapper->solver->solveLimited(wrapper->assumps);
+  wrapper->assumps.clear();
   if (res == l_True) {
     return 10;
   }
