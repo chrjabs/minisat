@@ -213,6 +213,30 @@ void cminisatsimp_interrupt(CMinisatSimp *handle) {
   ((SimpWrapper *)handle)->solver->interrupt();
 }
 
+uint64_t cminisat_decisions(CMinisat *handle) {
+  return ((Wrapper *)handle)->solver->decisions;
+}
+
+uint64_t cminisatsimp_decisions(CMinisatSimp *handle) {
+  return ((SimpWrapper *)handle)->solver->decisions;
+}
+
+uint64_t cminisat_propagations(CMinisat *handle) {
+  return ((Wrapper *)handle)->solver->propagations;
+}
+
+uint64_t cminisatsimp_propagations(CMinisatSimp *handle) {
+  return ((SimpWrapper *)handle)->solver->propagations;
+}
+
+uint64_t cminisat_conflicts(CMinisat *handle) {
+  return ((Wrapper *)handle)->solver->conflicts;
+}
+
+uint64_t cminisatsimp_conflicts(CMinisatSimp *handle) {
+  return ((SimpWrapper *)handle)->solver->conflicts;
+}
+
 void cminisatsimp_set_frozen(CMinisatSimp *handle, int var, bool frozen) {
   ((SimpWrapper *)handle)->solver->setFrozen(var, frozen);
 }

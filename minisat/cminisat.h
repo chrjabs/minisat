@@ -58,6 +58,10 @@ void cminisat_set_conf_limit(CMinisat *, int64_t limit);
 void cminisat_set_prop_limit(CMinisat *, int64_t limit);
 void cminisat_set_no_limit(CMinisat *);
 void cminisat_interrupt(CMinisat *);
+
+uint64_t cminisat_decisions(CMinisat *);
+uint64_t cminisat_propagations(CMinisat *);
+uint64_t cminisat_conflicts(CMinisat *);
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
@@ -81,6 +85,10 @@ void cminisatsimp_set_conf_limit(CMinisatSimp *, int64_t limit);
 void cminisatsimp_set_prop_limit(CMinisatSimp *, int64_t limit);
 void cminisatsimp_set_no_limit(CMinisatSimp *);
 void cminisatsimp_interrupt(CMinisatSimp *);
+
+uint64_t cminisatsimp_decisions(CMinisatSimp *);
+uint64_t cminisatsimp_propagations(CMinisatSimp *);
+uint64_t cminisatsimp_conflicts(CMinisatSimp *);
 
 // Simplification-specific functions
 void cminisatsimp_set_frozen(CMinisatSimp *, int var, bool frozen);
