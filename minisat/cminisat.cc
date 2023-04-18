@@ -118,13 +118,13 @@ int cminisatsimp_solve(CMinisatSimp *handle) {
 
 int cminisat_val(CMinisat *handle, int lit) {
   Wrapper *wrapper = (Wrapper *)handle;
-  Var v = abs(lit);
+  Var v = abs(lit) - 1;
   lbool val = wrapper->solver->modelValue(v);
   if (val == l_True) {
-    return v;
+    return v + 1;
   }
   if (val == l_False) {
-    return -v;
+    return -(v + 1);
   }
   return 0;
 }
