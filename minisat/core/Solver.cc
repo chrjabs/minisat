@@ -241,6 +241,16 @@ void Solver::cancelUntil(int level) {
         trail_lim.shrink(trail_lim.size() - level);
     } }
 
+// Phase saving extension (Christoph Jabs - @chrjabs)
+void Solver::phase(Lit p) {
+    Var v = var(p);
+    // The way minisat uses these, is inverted, l_True means negated polarity
+    user_pol[v] = sign(p) ? l_True : l_False;
+}
+
+void Solver::unphase(Var v) {
+    user_pol[v] = l_Undef;
+}
 
 //=================================================================================================
 // Major methods:

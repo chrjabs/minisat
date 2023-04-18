@@ -148,6 +148,22 @@ int cminisatsimp_failed(CMinisatSimp *handle, int lit) {
   return cminisat_failed((CMinisat *)handle, lit);
 }
 
+void cminisat_phase(CMinisat *handle, int lit) {
+  return ((Wrapper *)handle)->solver->phase(IPASIR2MS(lit));
+}
+
+void cminisatsimp_phase(CMinisatSimp *handle, int lit) {
+  return ((SimpWrapper *)handle)->solver->phase(IPASIR2MS(lit));
+}
+
+void cminisat_unphase(CMinisat *handle, int lit) {
+  return ((Wrapper *)handle)->solver->unphase(var(IPASIR2MS(lit)));
+}
+
+void cminisatsimp_unphase(CMinisatSimp *handle, int lit) {
+  return ((SimpWrapper *)handle)->solver->unphase(var(IPASIR2MS(lit)));
+}
+
 int cminisat_n_assigns(CMinisat *handle) {
   return ((Wrapper *)handle)->solver->nAssigns();
 }

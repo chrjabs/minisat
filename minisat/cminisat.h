@@ -49,6 +49,9 @@ int cminisat_solve(CMinisat *);
 int cminisat_val(CMinisat *, int lit);
 int cminisat_failed(CMinisat *, int lit);
 
+void cminisat_phase(CMinisat *, int lit);
+void cminisat_unphase(CMinisat *, int lit);
+
 int cminisat_n_assigns(CMinisat *);
 int cminisat_n_clauses(CMinisat *);
 int cminisat_n_learnts(CMinisat *);
@@ -71,6 +74,9 @@ void cminisatsimp_assume(CMinisatSimp *, int lit);
 int cminisatsimp_solve(CMinisatSimp *);
 int cminisatsimp_val(CMinisatSimp *, int lit);
 int cminisatsimp_failed(CMinisatSimp *, int lit);
+
+void cminisatsimp_phase(CMinisatSimp *, int lit);
+void cminisatsimp_unphase(CMinisatSimp *, int lit);
 
 int cminisatsimp_n_assigns(CMinisatSimp *);
 int cminisatsimp_n_clauses(CMinisatSimp *);

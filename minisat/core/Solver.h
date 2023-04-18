@@ -120,7 +120,6 @@ public:
     // Phase saving extension (Christoph Jabs - @chrjabs)
     void phase   (Lit p);
     void unphase (Var v);
-    vec<lbool> saved_phases;
 
     // Extra results: (read-only member variable)
     //
