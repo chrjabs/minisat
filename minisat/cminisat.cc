@@ -130,7 +130,7 @@ int cminisat_val(CMinisat *handle, int lit) {
 }
 
 int cminisatsimp_val(CMinisatSimp *handle, int lit) {
-  return cminisat_solve((CMinisat *)handle);
+  return cminisat_val((CMinisat *)handle, lit);
 }
 
 int cminisat_failed(CMinisat *handle, int lit) {
