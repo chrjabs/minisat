@@ -35,20 +35,20 @@ namespace Minisat {
 
 struct Wrapper {
   Solver *solver;
-  vec<Lit> clause{};
-  vec<Lit> assumps{};
+  vec<Lit> clause;
+  vec<Lit> assumps;
 
-  Wrapper() : solver(new Solver()) {}
+  Wrapper() : solver(new Solver()), clause(), assumps() {}
 
   ~Wrapper() { delete solver; }
 };
 
 struct SimpWrapper {
   SimpSolver *solver;
-  vec<Lit> clause{};
-  vec<Lit> assumps{};
+  vec<Lit> clause;
+  vec<Lit> assumps;
 
-  SimpWrapper() : solver(new SimpSolver()) {}
+  SimpWrapper() : solver(new SimpSolver()), clause(), assumps() {}
 
   ~SimpWrapper() { delete solver; }
 };
