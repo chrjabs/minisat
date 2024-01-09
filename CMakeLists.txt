@@ -34,6 +34,7 @@ include_directories(${minisat_SOURCE_DIR})
 # Compile flags:
 
 add_definitions(-D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS)
+set(CMAKE_CXX_STANDARD 11)
 
 #--------------------------------------------------------------------------------------------------
 # Build Targets:
