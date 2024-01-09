@@ -93,7 +93,11 @@ void cminisatsimp_add(CMinisatSimp *handle, int lit) {
 }
 
 void cminisat_assume(CMinisat *handle, int lit) {
-  ((Wrapper *)handle)->assumps.push(IPASIR2MS(lit));
+  Wrapper *wrapper = (Wrapper *)handle;
+  int var = abs(lit) - 1;
+  while (var >= wrapper->solver->nVars())
+    wrapper->solver->newVar();
+  wrapper->assumps.push(IPASIR2MS(lit));
 }
 
 void cminisatsimp_assume(CMinisatSimp *handle, int lit) {
