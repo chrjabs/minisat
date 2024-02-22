@@ -19,7 +19,6 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 
 #include "minisat/mtl/Sort.h"
 #include "minisat/utils/Options.h"
-#include "minisat/utils/ParseUtils.h"
 
 using namespace Minisat;
 
