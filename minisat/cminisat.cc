@@ -258,10 +258,14 @@ uint64_t cminisatsimp_conflicts(CMinisatSimp *handle) {
 }
 
 void cminisatsimp_set_frozen(CMinisatSimp *handle, int var, bool frozen) {
-  ((SimpWrapper *)handle)->solver->setFrozen(var, frozen);
+  ((SimpWrapper *)handle)->solver->setFrozen(var - 1, frozen);
+}
+
+int cminisatsimp_is_frozen(CMinisatSimp *handle, int var) {
+  return ((SimpWrapper *)handle)->solver->isFrozen(var - 1);
 }
 
 int cminisatsimp_is_eliminated(CMinisatSimp *handle, int var) {
-  return ((SimpWrapper *)handle)->solver->isEliminated(var);
+  return ((SimpWrapper *)handle)->solver->isEliminated(var - 1);
 }
 }

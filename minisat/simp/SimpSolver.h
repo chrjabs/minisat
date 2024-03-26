@@ -53,6 +53,7 @@ class SimpSolver : public Solver {
     // Variable mode:
     // 
     void    setFrozen (Var v, bool b); // If a variable is frozen it will not be eliminated.
+    bool    isFrozen(Var v);
     bool    isEliminated(Var v) const;
 
     // Alternative freeze interface (may replace 'setFrozen()'):
@@ -190,6 +191,7 @@ inline bool SimpSolver::addClause    (Lit p, Lit q)          { add_tmp.clear(); 
 inline bool SimpSolver::addClause    (Lit p, Lit q, Lit r)   { add_tmp.clear(); add_tmp.push(p); add_tmp.push(q); add_tmp.push(r); return addClause_(add_tmp); }
 inline bool SimpSolver::addClause    (Lit p, Lit q, Lit r, Lit s){ add_tmp.clear(); add_tmp.push(p); add_tmp.push(q); add_tmp.push(r); add_tmp.push(s); return addClause_(add_tmp); }
 inline void SimpSolver::setFrozen    (Var v, bool b) { frozen[v] = (char)b; if (use_simplification && !b) { updateElimHeap(v); } }
+inline bool SimpSolver::isFrozen     (Var v) { return frozen[v]; }
 
 inline void SimpSolver::freezeVar(Var v){
     if (!frozen[v]){

@@ -98,6 +98,7 @@ uint64_t cminisatsimp_conflicts(CMinisatSimp *);
 
 // Simplification-specific functions
 void cminisatsimp_set_frozen(CMinisatSimp *, int var, bool frozen);
+int cminisatsimp_is_frozen(CMinisatSimp *, int var);
 int cminisatsimp_is_eliminated(CMinisatSimp *, int var);
 // -----------------------------------------------------------------------------
 
