@@ -23,6 +23,10 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 
 #include "minisat/utils/System.h"
 
+#ifdef QUIET
+#define printf(fmt, ...) (0)
+#endif
+
 #if defined(__linux__)
 
 #include <stdlib.h>

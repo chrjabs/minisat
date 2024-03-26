@@ -8,6 +8,7 @@ project(minisat)
 option(BUILD_BINARIES  "Build the solver binary" ON)
 option(STATIC_BINARIES "Link binaries statically." ON)
 option(USE_SORELEASE   "Use SORELEASE in shared library filename." ON)
+option(QUIET           "Disable all output to stdout" OFF)
 
 #--------------------------------------------------------------------------------------------------
 # Library version:
@@ -38,6 +39,9 @@ include_directories(${minisat_SOURCE_DIR})
 
 add_definitions(-D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS)
 set(CMAKE_CXX_STANDARD 11)
+if(QUIET)
+  add_compile_definitions("QUIET")
+endif()
 
 #--------------------------------------------------------------------------------------------------
 # Build Targets:
