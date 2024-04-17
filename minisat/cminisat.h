@@ -37,19 +37,23 @@ extern "C" {
 
 const char *cminisat_signature(void);
 
+// This value is returned from _solve, _add, and _phase if the solver runs out
+// of memory
+const int OUT_OF_MEM = 50;
+
 // -----------------------------------------------------------------------------
 // API for the solver without preprocessing
 typedef struct CMinisat CMinisat;
 CMinisat *cminisat_init(void);
 void cminisat_release(CMinisat *);
 
-void cminisat_add(CMinisat *, int lit);
+int cminisat_add(CMinisat *, int lit);
 void cminisat_assume(CMinisat *, int lit);
 int cminisat_solve(CMinisat *);
 int cminisat_val(CMinisat *, int lit);
 int cminisat_failed(CMinisat *, int lit);
 
-void cminisat_phase(CMinisat *, int lit);
+int cminisat_phase(CMinisat *, int lit);
 void cminisat_unphase(CMinisat *, int lit);
 
 int cminisat_n_assigns(CMinisat *);
@@ -73,13 +77,13 @@ typedef struct CMinisatSimp CMinisatSimp;
 CMinisatSimp *cminisatsimp_init(void);
 void cminisatsimp_release(CMinisatSimp *);
 
-void cminisatsimp_add(CMinisatSimp *, int lit);
+int cminisatsimp_add(CMinisatSimp *, int lit);
 void cminisatsimp_assume(CMinisatSimp *, int lit);
 int cminisatsimp_solve(CMinisatSimp *);
 int cminisatsimp_val(CMinisatSimp *, int lit);
 int cminisatsimp_failed(CMinisatSimp *, int lit);
 
-void cminisatsimp_phase(CMinisatSimp *, int lit);
+int cminisatsimp_phase(CMinisatSimp *, int lit);
 void cminisatsimp_unphase(CMinisatSimp *, int lit);
 
 int cminisatsimp_n_assigns(CMinisatSimp *);

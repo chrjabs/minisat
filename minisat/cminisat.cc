@@ -24,7 +24,9 @@
  */
 
 #include "core/Solver.h"
+#include "mtl/XAlloc.h"
 #include "simp/SimpSolver.h"
+#include <new>
 
 #define IPASIR2MS(il) (mkLit(abs(il) - 1, il < 0))
 
@@ -63,10 +65,24 @@ extern "C" {
 
 const char *cminisat_signature(void) { return "Minisat 2.2.0"; }
 
-CMinisat *cminisat_init(void) { return (CMinisat *)new Wrapper(); }
+CMinisat *cminisat_init(void) {
+  try {
+    return (CMinisat *)new Wrapper();
+  } catch (std::bad_alloc &) {
+    return nullptr;
+  } catch (OutOfMemoryException &) {
+    return nullptr;
+  }
+}
 
 CMinisatSimp *cminisatsimp_init(void) {
-  return (CMinisatSimp *)new SimpWrapper();
+  try {
+    return (CMinisatSimp *)new SimpWrapper();
+  } catch (std::bad_alloc &) {
+    return nullptr;
+  } catch (OutOfMemoryException &) {
+    return nullptr;
+  }
 }
 
 void cminisat_release(CMinisat *handle) { delete (Wrapper *)handle; }
@@ -75,21 +91,26 @@ void cminisatsimp_release(CMinisatSimp *handle) {
   delete (SimpWrapper *)handle;
 }
 
-void cminisat_add(CMinisat *handle, int lit) {
+int cminisat_add(CMinisat *handle, int lit) {
   Wrapper *wrapper = (Wrapper *)handle;
-  if (lit) {
-    int var = abs(lit) - 1;
-    while (var >= wrapper->solver->nVars())
-      wrapper->solver->newVar();
-    wrapper->clause.push(IPASIR2MS(lit));
-    return;
+  try {
+    if (lit) {
+      int var = abs(lit) - 1;
+      while (var >= wrapper->solver->nVars())
+        wrapper->solver->newVar();
+      wrapper->clause.push(IPASIR2MS(lit));
+      return 0;
+    }
+    wrapper->solver->addClause_(wrapper->clause);
+    wrapper->clause.clear();
+    return 0;
+  } catch (OutOfMemoryException &) {
+    return OUT_OF_MEM;
   }
-  wrapper->solver->addClause_(wrapper->clause);
-  wrapper->clause.clear();
 }
 
-void cminisatsimp_add(CMinisatSimp *handle, int lit) {
-  cminisat_add((CMinisat *)handle, lit);
+int cminisatsimp_add(CMinisatSimp *handle, int lit) {
+  return cminisat_add((CMinisat *)handle, lit);
 }
 
 void cminisat_assume(CMinisat *handle, int lit) {
@@ -106,8 +127,13 @@ void cminisatsimp_assume(CMinisatSimp *handle, int lit) {
 
 int cminisat_solve(CMinisat *handle) {
   Wrapper *wrapper = (Wrapper *)handle;
-  lbool res = wrapper->solver->solveLimited(wrapper->assumps);
-  wrapper->assumps.clear();
+  lbool res;
+  try {
+    res = wrapper->solver->solveLimited(wrapper->assumps);
+    wrapper->assumps.clear();
+  } catch (OutOfMemoryException &) {
+    return OUT_OF_MEM;
+  }
   if (res == l_True) {
     return 10;
   }
@@ -153,12 +179,22 @@ int cminisatsimp_failed(CMinisatSimp *handle, int lit) {
   return cminisat_failed((CMinisat *)handle, lit);
 }
 
-void cminisat_phase(CMinisat *handle, int lit) {
-  return ((Wrapper *)handle)->solver->phase(IPASIR2MS(lit));
+int cminisat_phase(CMinisat *handle, int lit) {
+  try {
+    ((Wrapper *)handle)->solver->phase(IPASIR2MS(lit));
+    return 0;
+  } catch (OutOfMemoryException &) {
+    return OUT_OF_MEM;
+  }
 }
 
-void cminisatsimp_phase(CMinisatSimp *handle, int lit) {
-  return ((SimpWrapper *)handle)->solver->phase(IPASIR2MS(lit));
+int cminisatsimp_phase(CMinisatSimp *handle, int lit) {
+  try {
+    ((SimpWrapper *)handle)->solver->phase(IPASIR2MS(lit));
+    return 0;
+  } catch (OutOfMemoryException &) {
+    return OUT_OF_MEM;
+  }
 }
 
 void cminisat_unphase(CMinisat *handle, int lit) {
