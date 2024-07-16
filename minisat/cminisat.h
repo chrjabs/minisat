@@ -30,7 +30,7 @@
 extern "C" {
 #endif
 
-#include <stdbool.h>
+#include <stddef.h>
 #include <stdint.h>
 
 // Minisat C API
@@ -70,6 +70,13 @@ void cminisat_interrupt(CMinisat *);
 uint64_t cminisat_decisions(CMinisat *);
 uint64_t cminisat_propagations(CMinisat *);
 uint64_t cminisat_conflicts(CMinisat *);
+
+// Propagates the assumptions set via `cminisat_assume`, returns 20 if a
+// conflict was encountered, 10 if not. The list of propagated literals is
+// returned via the `prop_cb`. If the solver runs out of memory, returns
+// `OUT_OF_MEM`.
+int cminisat_propcheck(CMinisat *, int psaving, void (*prop_cb)(void *, int),
+                       void *cb_data);
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
@@ -101,8 +108,15 @@ uint64_t cminisatsimp_decisions(CMinisatSimp *);
 uint64_t cminisatsimp_propagations(CMinisatSimp *);
 uint64_t cminisatsimp_conflicts(CMinisatSimp *);
 
+// Propagates the assumptions set via `cminisatsimp_assume`, returns 20 if a
+// conflict was encountered, 10 if not. The list of propagated literals is
+// returned via the `prop_cb`. If the solver runs out of memory, returns
+// `OUT_OF_MEM`.
+int cminisatsimp_propcheck(CMinisatSimp *, int psaving,
+                           void (*prop_cb)(void *, int), void *cb_data);
+
 // Simplification-specific functions
-void cminisatsimp_set_frozen(CMinisatSimp *, int var, bool frozen);
+void cminisatsimp_set_frozen(CMinisatSimp *, int var, int frozen);
 int cminisatsimp_is_frozen(CMinisatSimp *, int var);
 int cminisatsimp_is_eliminated(CMinisatSimp *, int var);
 // -----------------------------------------------------------------------------

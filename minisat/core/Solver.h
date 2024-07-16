@@ -66,6 +66,7 @@ public:
     bool    solve        (Lit p, Lit q);            // Search for a model that respects two assumptions.
     bool    solve        (Lit p, Lit q, Lit r);     // Search for a model that respects three assumptions.
     bool    okay         () const;                  // FALSE means solver is in a conflicting state
+    bool    propCheck    (const vec<Lit>& assumps, int psaving, void(*prop_cb)(void *, int), void *cb_data); // compute a list of propagated literals given a set of assumptions
 
     bool    implies      (const vec<Lit>& assumps, vec<Lit>& out);
 

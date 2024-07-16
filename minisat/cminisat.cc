@@ -293,7 +293,7 @@ uint64_t cminisatsimp_conflicts(CMinisatSimp *handle) {
   return ((SimpWrapper *)handle)->solver->conflicts;
 }
 
-void cminisatsimp_set_frozen(CMinisatSimp *handle, int var, bool frozen) {
+void cminisatsimp_set_frozen(CMinisatSimp *handle, int var, int frozen) {
   ((SimpWrapper *)handle)->solver->setFrozen(var - 1, frozen);
 }
 
@@ -303,5 +303,24 @@ int cminisatsimp_is_frozen(CMinisatSimp *handle, int var) {
 
 int cminisatsimp_is_eliminated(CMinisatSimp *handle, int var) {
   return ((SimpWrapper *)handle)->solver->isEliminated(var - 1);
+}
+
+int cminisat_propcheck(CMinisat *handle, int psaving,
+                       void (*prop_cb)(void *, int), void *cb_data) {
+  Wrapper *wrapper = (Wrapper *)handle;
+  bool res;
+  try {
+    res =
+        wrapper->solver->propCheck(wrapper->assumps, psaving, prop_cb, cb_data);
+    wrapper->assumps.clear();
+  } catch (OutOfMemoryException &) {
+    return OUT_OF_MEM;
+  }
+  return res ? 10 : 20;
+}
+
+int cminisatsimp_propcheck(CMinisatSimp *handle, int psaving,
+                           void (*prop_cb)(void *, int), void *cb_data) {
+  return cminisat_propcheck((CMinisat *)handle, psaving, prop_cb, cb_data);
 }
 }
